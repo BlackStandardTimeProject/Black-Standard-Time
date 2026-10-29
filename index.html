@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Black Standard Time pairs original art with moments of Black history told through joy, invention and culture. Submit a moment for the calendar.">
+<meta property="og:title" content="Black Standard Time">
+<meta property="og:description" content="A calendar of art and Black history, told outside the lens of trauma. Submit a moment.">
+<meta name="theme-color" content="#000000">
+<title>Black Standard Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap">
+<style>
+/* Layout: a black wall with staggered all-caps grotesk headlines (words set on offset lines, like the BST title card). One face, three weights, white on black. */
+:root{
+  --black:#000000; --panel:#0B0B0C; --white:#FFFFFF; --grey:#9A9A9E; --line:#2A2A2D; --err:#FF8A80;
+  --grot:"Helvetica Neue", Helvetica, "Archivo", Arial, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--black);color:var(--white);font:16px/1.55 var(--grot)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--white)}
+:focus-visible{outline:2px solid var(--white);outline-offset:3px}
+.label{font:500 12px/1.2 var(--grot);letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+h1,h2,h3{font-family:var(--grot);font-weight:500;text-transform:uppercase;letter-spacing:-.02em;margin:0;line-height:.92}
+
+/* staggered headline: each line is its own block, pushed by an indent class */
+.stack{display:flex;flex-direction:column}
+.stack span{display:block}
+.in1{padding-left:18%}
+.in2{padding-left:52%}
+.split{display:flex;justify-content:space-between;gap:.4em;flex-wrap:wrap}
+
+.bar{padding-block:22px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.mark{font:500 15px/1 var(--grot);letter-spacing:.06em;text-transform:uppercase}
+
+.hero{padding-block:72px 64px}
+.hero h1{font-size:clamp(48px,10.5vw,148px)}
+.hero-low{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:end;margin-top:72px}
+.lede{font-size:19px;max-width:32em;margin:0 0 28px;color:var(--white)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font:500 14px/1 var(--grot);letter-spacing:.12em;text-transform:uppercase;padding:16px 22px;border:1px solid var(--white);text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;border-radius:0}
+.btn.primary{background:var(--white);color:var(--black)}
+.btn.ghost{background:transparent;color:var(--white)}
+.btn.primary:hover{background:var(--grey);border-color:var(--grey)}
+.btn.ghost:hover{background:var(--white);color:var(--black)}
+.btn[disabled]{opacity:.5;cursor:wait}
+
+.tile{border:1px solid var(--white);margin:0;max-width:100%}
+.tile-top{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--white);font:500 12px/1 var(--grot);letter-spacing:.14em;text-transform:uppercase}
+.tile-body{padding:18px 16px 18px;min-height:280px;display:flex;flex-direction:column}
+.tile-month{font:500 20px/1 var(--grot);letter-spacing:.06em;text-transform:uppercase}
+.tile-day{font:500 clamp(110px,13vw,160px)/.82 var(--grot);letter-spacing:-.05em;margin:10px 0 16px;font-variant-numeric:tabular-nums}
+.tile-text{font-size:16px;line-height:1.45;margin:0;flex:1;max-width:30em}
+.tile-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
+.year{font:500 14px/1 var(--grot);letter-spacing:.08em}
+.fade{transition:opacity .35s ease}
+.fade.out{opacity:0}
+
+.lens{border-top:1px solid var(--line);padding-block:64px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:40px}
+.lens h2{font-size:clamp(34px,5vw,64px)}
+.lens-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.lens-grid h3{font-size:20px;line-height:1.05;margin-bottom:10px;letter-spacing:0}
+.lens-grid p{margin:0;color:var(--grey)}
+.lens-grid .k{display:block;margin-bottom:14px}
+
+.cal{border-top:1px solid var(--line);padding-block:64px}
+.cal-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.cal-head h2{font-size:clamp(34px,5vw,64px)}
+.cal-head p{margin:14px 0 0;color:var(--grey);max-width:40em}
+.tabs{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--line)}
+.tab{font:500 12px/1 var(--grot);letter-spacing:.14em;padding:12px 14px;border:0;border-right:1px solid var(--line);background:transparent;color:var(--grey);cursor:pointer}
+.tab:last-child{border-right:0}
+.tab[aria-selected="true"]{background:var(--white);color:var(--black)}
+.days{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
+.days li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.days .n{font:500 32px/1 var(--grot);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.days .y{font:500 12px/1 var(--grot);letter-spacing:.12em;color:var(--grey);display:block;margin-bottom:6px}
+.days p{margin:0;font-size:15px;line-height:1.45}
+
+.submit{border-top:1px solid var(--white)}
+.submit .wrap{padding-block:72px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px}
+.submit h2{font-size:clamp(44px,6.5vw,96px)}
+.submit .intro p{color:var(--grey);max-width:28em;margin-top:24px}
+form{border:1px solid var(--white);padding:28px;display:grid;gap:20px;min-width:0;background:var(--panel)}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.row3{display:grid;grid-template-columns:1.3fr .8fr 1fr;gap:12px}
+.field{display:grid;gap:8px;min-width:0}
+.field label,.field legend{font:500 12px/1.2 var(--grot);letter-spacing:.14em;text-transform:uppercase}
+.field small{color:var(--grey);font-size:13px}
+.group{border:0;border-top:1px solid var(--line);padding:20px 0 0;margin:0;display:grid;gap:16px}
+.group > legend{font:500 12px/1 var(--grot);letter-spacing:.14em;text-transform:uppercase;color:var(--grey);padding:0 0 0;float:left;width:100%}
+input,select,textarea{font:16px/1.4 var(--grot);color:var(--white);background:var(--black);border:1px solid var(--line);border-radius:0;padding:12px;width:100%}
+input::placeholder,textarea::placeholder{color:#6B6B70}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--white);outline:1px solid var(--white);outline-offset:0}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--grey)}
+.check input{width:20px;height:20px;margin-top:1px;flex:none;accent-color:var(--white)}
+.req{color:var(--grey)}
+.err{color:var(--err);font-size:14px;margin:0}
+.done{border:1px solid var(--white);padding:28px;display:grid;gap:14px;align-content:start;background:var(--panel)}
+.done h3{font-size:clamp(36px,5vw,56px)}
+.done pre{white-space:pre-wrap;font:13px/1.55 var(--grot);background:var(--black);border:1px solid var(--line);padding:14px;margin:0;max-height:260px;overflow:auto;color:var(--white)}
+.addr{font:500 15px/1 var(--grot);user-select:all}
+
+.inbox{padding-block:64px;border-top:1px solid var(--line)}
+.inbox h2{font-size:clamp(32px,4vw,48px);margin-top:10px}
+.sub-list{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:0}
+.sub-list li{border-top:1px solid var(--line);padding:18px 0;display:grid;gap:6px}
+.sub-list .meta{font-size:13px;color:var(--grey)}
+.sub-list .when{font:500 20px/1.1 var(--grot);text-transform:uppercase}
+.sub-list p{margin:0}
+.empty{color:var(--grey);margin-top:16px}
+
+footer{border-top:1px solid var(--line);padding-block:32px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--grey)}
+
+@media (max-width:860px){
+  .hero-low,.lens,.submit .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero{padding-block:44px 48px}
+  .hero-low{margin-top:44px;gap:36px}
+  .lens-grid,.days{grid-template-columns:minmax(0,1fr)}
+  .in2{padding-left:30%}
+}
+@media (max-width:520px){
+  .row{grid-template-columns:minmax(0,1fr)}
+  .row3{grid-template-columns:1.2fr .8fr 1fr;gap:8px}
+  form,.done{padding:20px}
+  .in1{padding-left:10%}.in2{padding-left:20%}
+}
+@media (prefers-reduced-motion:reduce){.fade{transition:none}}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<header class="wrap bar">
+  <div class="mark">Black Standard Time</div>
+  <span class="label">Open call · Moments for the next calendar</span>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <h1 class="stack">
+      <span>Black Standard</span>
+      <span class="in1">Time</span>
+    </h1>
+    <div class="hero-low">
+      <div>
+        <p class="label" style="margin:0 0 18px">Open call · A calendar of art and Black history</p>
+        <p class="lede">Black Standard Time pairs original artwork with a moment from Black history for every date on the calendar. We tell it through invention, joy, craft and culture, not through trauma. Help us fill the year: send us a moment you think belongs on the wall.</p>
+        <div class="ctas">
+          <a class="btn primary" href="#submit">Submit a moment</a>
+          <a class="btn ghost" href="#calendar">See the calendar</a>
+        </div>
+      </div>
+      <figure class="tile" aria-label="A date from the Black Standard Time calendar">
+        <div class="tile-top"><span>BST</span><span>On this date</span></div>
+        <div class="tile-body fade" id="tileBody">
+          <div class="tile-month" id="tileMonth">MAY</div>
+          <div class="tile-day" id="tileDay">13</div>
+          <p class="tile-text" id="tileText">John Singleton premieres Boyz n the Hood at Cannes. He is 23, and the room gives him a 20-minute standing ovation.</p>
+          <div class="tile-foot"><span class="year" id="tileYear">1991</span><span class="label">Art + history</span></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap lens" aria-labelledby="lensH">
+    <div>
+      <p class="label">The lens</p>
+      <h2 id="lensH" class="stack"><span>What makes</span><span class="in1">a moment</span></h2>
+    </div>
+    <div class="lens-grid">
+      <div><span class="k label">Firsts</span><h3>Doors opened</h3><p>The first to headline, to win, to lead the house, to reach the pole. Records set and rooms walked into.</p></div>
+      <div><span class="k label">Culture</span><h3>Things we made</h3><p>An album drop, a premiere, a runway show, a painting at auction. Work that changed how the world looks and sounds.</p></div>
+      <div><span class="k label">Joy</span><h3>Moments we celebrate</h3><p>Births, founding days and victories. If your moment centers violence or loss, it isn't the fit for this calendar.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap cal" id="calendar" aria-labelledby="calH">
+    <div class="cal-head">
+      <div>
+        <p class="label">Inside the 2026 calendar</p>
+        <h2 id="calH" class="stack"><span>Already</span><span class="in1">on the wall</span></h2>
+        <p>Check the month before you submit so we don't get the same date twice. New dates, deeper cuts and moments from your own city are the most useful.</p>
+      </div>
+      <div class="tabs" role="tablist" id="tabs" aria-label="Month"></div>
+    </div>
+    <ul class="days" id="days" role="tabpanel"></ul>
+  </section>
+
+  <section class="submit" id="submit" aria-labelledby="subH">
+    <div class="wrap">
+      <div class="intro">
+        <p class="label">Submit a moment</p>
+        <h2 id="subH" class="stack"><span>Submit</span><span class="in1">your</span><span class="in2">date</span></h2>
+        <p>Tell us what happened, when, and where you found it. Every submission is read and fact-checked before it is paired with art. If yours makes the calendar, we'll credit you by name.</p>
+      </div>
+
+      <form id="form" novalidate>
+        <div class="field">
+          <label for="title">The moment <span class="req">*</span></label>
+          <input id="title" name="title" maxlength="160" placeholder="e.g. Mae Jemison is admitted to NASA's astronaut program" required>
+        </div>
+
+        <fieldset class="field" style="border:0;padding:0;margin:0">
+          <legend>When did it happen? <span class="req">*</span></legend>
+          <div class="row3">
+            <select id="month" aria-label="Month" required>
+              <option value="">Month</option>
+            </select>
+            <input id="day" aria-label="Day" inputmode="numeric" placeholder="Day" maxlength="2" required>
+            <input id="year" aria-label="Year" inputmode="numeric" placeholder="Year" maxlength="4" required>
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category">
+              <option>Music</option><option>Film &amp; TV</option><option>Art &amp; Design</option><option>Fashion</option>
+              <option>Sport</option><option>Business</option><option>Science &amp; Tech</option><option>Literature</option>
+              <option>Politics &amp; Law</option><option>Education</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="source">Source link <span class="req">*</span></label>
+            <input id="source" type="url" placeholder="https://" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="why">Why it belongs on the calendar</label>
+          <textarea id="why" maxlength="800" placeholder="A few sentences on what this moment changed or opened up."></textarea>
+        </div>
+
+        <fieldset class="group">
+          <legend>About you</legend>
+          <div class="row">
+            <div class="field">
+              <label for="name">Name <span class="req">*</span></label>
+              <input id="name" autocomplete="name" maxlength="80" required>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input id="email" type="email" autocomplete="email" maxlength="120" placeholder="you@example.com" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="handle">Handle <span class="req">*</span></label>
+            <input id="handle" maxlength="80" placeholder="@yourhandle" required>
+            <small>Instagram, TikTok or X. This is how we'll credit you if your moment is chosen.</small>
+          </div>
+        </fieldset>
+
+        <label class="check"><input type="checkbox" id="lensOk" required><span>This moment celebrates achievement, creativity or joy, and I've checked the date against my source.</span></label>
+
+        <p class="err" id="err" hidden></p>
+        <div><button class="btn primary" type="submit" id="go">Submit moment</button></div>
+      </form>
+
+      <div class="done" id="done" hidden aria-live="polite">
+        <p class="label" id="doneLabel">Received</p>
+        <h3 id="doneH">It's on our desk.</h3>
+        <p id="doneP" style="margin:0">Thank you. We'll fact-check it and consider it for the next edition.</p>
+        <div id="fallback" hidden style="display:grid;gap:12px">
+          <pre id="copyText"></pre>
+          <div class="ctas"><button class="btn primary" type="button" id="copyBtn">Copy submission</button></div>
+          <p style="margin:0;font-size:14px">Send it to <span class="addr">hello@donyetaylor.com</span></p>
+        </div>
+        <div><button class="btn ghost" type="button" id="again">Submit another moment</button></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>Black Standard Time is a project by <a href="https://yournuclei.com" target="_blank" rel="noopener">Nuclei</a>.</span>
+  <span>Art + Black history · 365 days</span>
+</footer>
+
+<script>
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const M=[
+[1,1,2024,"Donye Taylor launches Nuclei, a home goods brand that sells philosophies as products."],
+[1,2,2018,"Coachella announces Beyoncé as the first Black woman to headline the festival."],
+[1,3,1987,"Aretha Franklin becomes the first woman inducted into the Rock & Roll Hall of Fame."],
+[1,3,2024,"Katt Williams sits down on Club Shay Shay and delivers a viral hour of comedic candor."],
+[1,4,2023,"Nicki Minaj sets the record for most years charting on the Billboard Hot 100 by a female rapper."],
+[1,9,1866,"Fisk University is founded in Nashville."],
+[1,10,2023,"Quinta Brunson wins a Golden Globe for a comedy she created, wrote and stars in."],
+[1,15,1929,"Dr. Martin Luther King Jr. is born."],
+[1,17,1997,"Love Jones premieres at Sundance."],
+[1,18,1975,"The Jeffersons premieres, the first sitcom built around Black upward mobility."],
+[1,20,2009,"Barack Obama is inaugurated as the 44th President of the United States."],
+[1,25,2003,"Serena Williams completes the Serena Slam, holding all four Grand Slam titles at once."],
+[1,26,2020,"Nipsey Hussle wins two Grammys, for “Racks in the Middle” and “Higher.”"],
+[1,27,1991,"Whitney Houston sings the National Anthem at Super Bowl XXV."],
+[1,29,1996,"Tyra Banks becomes the first Black woman on the cover of GQ."],
+[2,1,2025,"UCLA gymnast Jordan Chiles scores a perfect 10 on floor."],
+[2,4,2007,"Prince plays his Super Bowl halftime show in the rain."],
+[2,5,2023,"Tems becomes the first Nigerian woman to win a Grammy."],
+[2,5,2023,"Viola Davis becomes an EGOT winner."],
+[2,8,2004,"OutKast becomes the first rap group to win Album of the Year."],
+[2,9,1907,"Alfred “Chief” Anderson, the father of Black aviation and trainer of the Tuskegee Airmen, is born."],
+[2,10,2004,"Kanye West releases The College Dropout."],
+[2,11,2016,"Yeezy Season 3 turns Madison Square Garden into a fashion show, album release and live event at once."],
+[2,11,1990,"Nelson Mandela walks free."],
+[2,12,1909,"The NAACP is founded."],
+[2,12,2018,"Kehinde Wiley and Amy Sherald unveil the official portraits of Barack and Michelle Obama."],
+[2,13,1996,"Tupac releases All Eyez on Me."],
+[2,14,2023,"Pharrell Williams is named creative director of Louis Vuitton Men's."],
+[2,15,1974,"Good Times airs “The Black Jesus,” a landmark episode on Black spirituality."],
+[2,16,2018,"Black Panther opens in the U.S. and becomes a global phenomenon."],
+[2,22,1989,"DJ Jazzy Jeff & The Fresh Prince win the first rap Grammy."],
+[2,24,1999,"Lauryn Hill wins five Grammys for The Miseducation of Lauryn Hill."],
+[2,24,2019,"Spike Lee wins his first Oscar."],
+[2,26,1983,"Michael Jackson's “Beat It” tops the charts."],
+[2,26,2017,"Moonlight wins Best Picture."],
+[2,27,1998,"Erykah Badu wins Best New Artist at the Soul Train Awards."],
+[2,29,1940,"Hattie McDaniel becomes the first Black Oscar winner."],
+[3,1,1864,"Rebecca Lee Crumpler becomes the first Black woman in the U.S. to earn a medical degree."],
+[3,6,2012,"Chief Keef records “I Don't Like” at 16 and launches Chicago drill."],
+[3,14,2022,"The all-Black, all-women 6888th Battalion receives the Congressional Gold Medal."],
+[3,16,1827,"Freedom's Journal, the first Black-owned newspaper in the U.S., is published in New York."],
+[3,18,1970,"Queen Latifah is born."],
+[3,21,1986,"Debi Thomas becomes the first Black figure skater to win a world title."],
+[3,25,1983,"Michael Jackson moonwalks for the first time on Motown 25."],
+[3,25,1985,"Prince wins the Oscar for Purple Rain."],
+[3,26,2018,"Virgil Abloh is named artistic director of Louis Vuitton menswear."],
+[3,28,2001,"Alicia Keys releases “Fallin'.”"],
+[3,31,1988,"Toni Morrison wins the Pulitzer Prize for Beloved."],
+[4,5,2012,"Kerry Washington leads Scandal, the first network drama with a Black woman lead in decades."],
+[4,6,1909,"Matthew Henson becomes one of the first people to reach the North Pole."],
+[4,7,1940,"Booker T. Washington becomes the first Black American on a U.S. postage stamp."],
+[4,14,2018,"Beyoncé headlines Coachella. The internet calls it Beychella."],
+[4,16,2018,"Kendrick Lamar wins the Pulitzer Prize for Music for DAMN."],
+[4,21,2000,"Love & Basketball opens in theaters."],
+[4,23,1872,"Charlotte E. Ray becomes the first Black woman lawyer in the U.S."],
+[4,23,2016,"Beyoncé releases Lemonade."],
+[4,25,2001,"Destiny's Child releases “Survivor.”"],
+[5,4,2022,"Tems becomes the first African woman to debut at No. 1 on a Billboard chart."],
+[5,10,1994,"Nelson Mandela is inaugurated as South Africa's first Black president."],
+[5,10,2019,"Rihanna launches Fenty with LVMH, the first woman of color to head an LVMH house."],
+[5,13,1991,"John Singleton premieres Boyz n the Hood at Cannes. He is 23, and the room gives him a 20-minute standing ovation."],
+[5,16,2018,"Kerry James Marshall's Past Times sells for $21.1 million."],
+[5,17,1954,"Brown v. Board of Education rules school segregation unconstitutional."],
+[5,19,1925,"Malcolm X is born."],
+[5,19,1989,"Do the Right Thing premieres at Cannes."],
+[5,19,2019,"Robert F. Smith pledges to pay off the student debt of Morehouse's class of 2019."],
+[5,19,2023,"Kaytranada and Aminé release Kaytraminé."],
+[5,24,2005,"Rihanna releases “Pon de Replay.”"],
+[5,25,2004,"Kanye West releases “Jesus Walks.”"],
+[5,29,1992,"Sister Act hits theaters."],
+[5,29,2025,"Melissa Koby becomes the first Black artist commissioned for U.S. Open theme art."],
+[6,2,2014,"Rihanna wears the Swarovski crystal gown to the CFDA Fashion Awards."],
+[6,2,2020,"Blackout Tuesday spreads across social media."],
+[6,5,1987,"Mae C. Jemison is admitted to NASA's astronaut training program."],
+[6,7,1958,"Prince is born in Minneapolis."],
+[6,8,2002,"Serena beats Venus in the French Open final."],
+[6,10,1972,"Soul Train airs its first national episode."],
+[6,10,2008,"Lil Wayne releases Tha Carter III."],
+[6,11,2002,"Lauryn Hill's MTV Unplugged goes platinum."],
+[6,12,1967,"Loving v. Virginia makes interracial marriage legal nationwide."],
+[6,13,1967,"Thurgood Marshall is nominated to the Supreme Court."],
+[6,13,2019,"Missy Elliott is inducted into the Songwriters Hall of Fame."]
+];
+
+/* ---- hero tile ---- */
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const heroPicks=[60,10,46,73,20,50,58,37].map(i=>M[i]).filter(Boolean);
+let hi=0;
+function showTile(e){
+  document.getElementById("tileMonth").textContent=MONTHS[e[0]-1].toUpperCase();
+  document.getElementById("tileDay").textContent=e[1];
+  document.getElementById("tileText").textContent=e[3];
+  document.getElementById("tileYear").textContent=e[2];
+}
+if(!reduce){
+  const body=document.getElementById("tileBody");
+  setInterval(()=>{
+    if(document.hidden)return;
+    body.classList.add("out");
+    setTimeout(()=>{hi=(hi+1)%heroPicks.length;showTile(heroPicks[hi]);body.classList.remove("out")},350);
+  },5000);
+}
+
+/* ---- calendar preview ---- */
+const tabs=document.getElementById("tabs"),days=document.getElementById("days");
+const have=[...new Set(M.map(e=>e[0]))];
+function renderMonth(m){
+  [...tabs.children].forEach(b=>b.setAttribute("aria-selected",String(+b.dataset.m===m)));
+  days.innerHTML="";
+  M.filter(e=>e[0]===m).forEach(e=>{
+    const li=document.createElement("li");
+    li.innerHTML='<span class="n"></span><div><span class="y"></span><p></p></div>';
+    li.querySelector(".n").textContent=String(e[1]).padStart(2,"0");
+    li.querySelector(".y").textContent=e[2];
+    li.querySelector("p").textContent=e[3];
+    days.appendChild(li);
+  });
+}
+have.forEach(m=>{
+  const b=document.createElement("button");
+  b.className="tab";b.type="button";b.role="tab";b.dataset.m=m;
+  b.textContent=MONTHS[m-1].slice(0,3).toUpperCase();
+  b.onclick=()=>renderMonth(m);
+  tabs.appendChild(b);
+});
+renderMonth(1);
+
+/* ---- form ---- */
+const sel=document.getElementById("month");
+MONTHS.forEach((n,i)=>{const o=document.createElement("option");o.value=i+1;o.textContent=n;sel.appendChild(o)});
+const form=document.getElementById("form"),err=document.getElementById("err"),go=document.getElementById("go");
+const done=document.getElementById("done"),fallback=document.getElementById("fallback");
+/* Paste your Formspree endpoint here, e.g. "https://formspree.io/f/abcdwxyz" */
+const FORM_ENDPOINT="PASTE_FORMSPREE_URL_HERE";
+
+function val(id){return document.getElementById(id).value.trim()}
+function validate(){
+  if(!val("title"))return["title","Add a short description of the moment."];
+  const m=+val("month"),d=+val("day"),y=+val("year");
+  if(!m)return["month","Choose the month it happened."];
+  if(!(d>=1&&d<=31))return["day","Enter the day as a number from 1 to 31."];
+  if(!(y>=1000&&y<=new Date().getFullYear()))return["year","Enter a four-digit year that has already happened."];
+  const s=val("source");
+  if(!/^https?:\/\/\S+\.\S+/.test(s))return["source","Add a link that starts with https:// so we can check the date."];
+  if(!val("name"))return["name","Add your name so we can credit you."];
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val("email")))return["email","Add an email address so we can reach you if your moment is chosen."];
+  if(!val("handle"))return["handle","Add your handle so we can credit you."];
+  if(!document.getElementById("lensOk").checked)return["lensOk","Confirm the moment fits the lens and that you've checked the date."];
+  return null;
+}
+function entry(){
+  return{title:val("title"),month:+val("month"),day:+val("day"),year:+val("year"),
+    category:val("category"),source:val("source"),why:val("why"),name:val("name"),email:val("email"),handle:val("handle")};
+}
+function asText(e){
+  return `BLACK STANDARD TIME SUBMISSION\n${MONTHS[e.month-1]} ${e.day}, ${e.year}\n${e.title}\nCategory: ${e.category}\nSource: ${e.source}\n${e.why?("Why: "+e.why+"\n"):""}From: ${e.name} (${e.handle})\nEmail: ${e.email}`;
+}
+function showDone(e,saved){
+  form.hidden=true;done.hidden=false;
+  if(saved){
+    document.getElementById("doneLabel").textContent="Received";
+    document.getElementById("doneH").textContent="It's on our desk.";
+    document.getElementById("doneP").textContent="Thank you. We'll fact-check it and consider it for the next edition.";
+    fallback.hidden=true;
+  }else{
+    document.getElementById("doneLabel").textContent="One more step";
+    document.getElementById("doneH").textContent="Send it our way.";
+    document.getElementById("doneP").textContent="Something went wrong sending your moment. Copy it below and email it to us instead.";
+    document.getElementById("copyText").textContent=asText(e);
+    fallback.hidden=false;
+  }
+  done.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"});
+}
+form.addEventListener("submit",async ev=>{
+  ev.preventDefault();
+  const bad=validate();
+  if(bad){err.textContent=bad[1];err.hidden=false;document.getElementById(bad[0]).focus();return}
+  err.hidden=true;
+  const e=entry();
+  if(!/^https:\/\/formspree\.io\/f\//.test(FORM_ENDPOINT)){showDone(e,false);return}
+  go.disabled=true;go.textContent="Sending…";
+  try{
+    const r=await fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({...e,date:`${MONTHS[e.month-1]} ${e.day}, ${e.year}`,_replyto:e.email,_subject:`BST submission: ${e.title}`})});
+    if(!r.ok)throw new Error("send failed");
+    showDone(e,true);
+  }catch(x){
+    showDone(e,false);
+  }finally{go.disabled=false;go.textContent="Submit moment"}
+});
+document.getElementById("again").onclick=()=>{form.reset();done.hidden=true;form.hidden=false;document.getElementById("title").focus()};
+document.getElementById("copyBtn").onclick=async function(){
+  const t=document.getElementById("copyText");
+  try{await navigator.clipboard.writeText(t.textContent);this.textContent="Copied"}
+  catch(_){const r=document.createRange();r.selectNodeContents(t);const s=getSelection();s.removeAllRanges();s.addRange(r);this.textContent="Selected. Press copy"}
+};
+
+</script>
+
+</body>
+</html>
