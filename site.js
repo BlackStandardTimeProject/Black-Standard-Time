@@ -554,6 +554,22 @@ const COMMUNITY=[
 if(document.getElementById("commRow")){
 (function(){
   const row=document.getElementById("commRow");
+  function setThumb(b,src){
+    const im=new Image();im.alt="";im.className="post-thumb";im.referrerPolicy="no-referrer";
+    im.onload=()=>{b.insertBefore(im,b.firstChild);b.classList.add("has-thumb")};im.src=src;
+  }
+  /* cover images and captions come from TikTok's public oEmbed, loaded in the visitor's browser */
+  function loadPreviews(){
+    row.querySelectorAll(".post-frame[data-url]").forEach(b=>{
+      const u=b.dataset.url;if(!/tiktok\.com/.test(u)||b.classList.contains("has-thumb"))return;
+      fetch("https://www.tiktok.com/oembed?url="+encodeURIComponent(u)).then(r=>r.ok?r.json():null).then(d=>{
+        if(!d)return;
+        if(d.thumbnail_url)setThumb(b,d.thumbnail_url);
+        const cap=b.parentNode&&b.parentNode.querySelector('figcaption span[data-auto]');
+        if(cap&&d.title){let t=d.title.replace(/\s*#\S+/g,"").trim();if(t.length>90)t=t.slice(0,88).replace(/\s+\S*$/,"")+"…";cap.textContent=t}
+      }).catch(()=>{});
+    });
+  }
   function parse(u){
     let m=u.match(/tiktok\.com\/.*\/video\/(\d+)/);if(m)return {src:`https://www.tiktok.com/player/v1/${m[1]}?music_info=1&description=1&rel=0&native_context_menu=0`,kind:"TikTok"};
     m=u.match(/instagram\.com\/(?:reel|reels|p)\/([\w-]+)/);if(m)return {src:`https://www.instagram.com/reel/${m[1]}/embed`,kind:"Instagram"};
@@ -567,6 +583,8 @@ if(document.getElementById("commRow")){
     b.querySelector(".post-n").textContent=String(i+1).padStart(2,"0");
     b.querySelector(".post-h").textContent=p.handle||"";
     b.querySelector(".post-k").textContent="Watch on "+v.kind;
+    b.dataset.url=p.url.split("?")[0];
+    if(p.thumb)setThumb(b,p.thumb);
     b.onclick=()=>{const fr=document.createElement("iframe");fr.src=v.src;fr.title=v.kind+" post by "+(p.handle||"the community");
       fr.allow="autoplay; encrypted-media; fullscreen; picture-in-picture";fr.allowFullscreen=true;fr.loading="lazy";
       const w=document.createElement("div");w.className="post-frame live";w.appendChild(fr);b.replaceWith(w)};
@@ -574,6 +592,7 @@ if(document.getElementById("commRow")){
     c.innerHTML='<a target="_blank" rel="noopener"></a><span></span>';
     const a=c.querySelector("a");a.href=p.url;a.textContent=p.handle||("View on "+v.kind);
     c.querySelector("span").textContent=p.note||"";
+    if(!p.note)c.querySelector("span").dataset.auto="1";
     f.appendChild(b);f.appendChild(c);row.appendChild(f);
   });
   /* closing card: invite people to post */
@@ -584,5 +603,6 @@ if(document.getElementById("commRow")){
   document.querySelector(".comm-prev").onclick=()=>row.scrollBy({left:-step(),behavior:"smooth"});
   document.querySelector(".comm-next").onclick=()=>row.scrollBy({left:step(),behavior:"smooth"});
   if(COMMUNITY.length<3)document.querySelector(".comm-ctrl").hidden=true;
+  if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();loadPreviews()}},{rootMargin:"600px"});io.observe(row)}else loadPreviews();
 })();
 }

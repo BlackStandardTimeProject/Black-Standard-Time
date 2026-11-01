@@ -356,3 +356,10 @@ footer{border-top:1px solid var(--line);padding-block:32px;display:flex;justify-
 .post-big{font:500 clamp(40px,4vw,56px)/.9 var(--grot);text-transform:uppercase;letter-spacing:-.03em}
 .post-cta:hover .post-frame{background:var(--grey)}
 @media (max-width:860px){.comm-head{grid-template-columns:minmax(0,1fr)}}
+/* post cover images */
+.post-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.post-frame.has-thumb::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 55%,rgba(0,0,0,.8) 100%)}
+.post-frame > span{position:relative;z-index:1}
+.post-frame.has-thumb .post-n{color:rgba(255,255,255,.55)}
+.post-frame.has-thumb .post-play{background:rgba(0,0,0,.35);backdrop-filter:blur(4px)}
+.post-frame.has-thumb .post-k{color:rgba(255,255,255,.75)}
