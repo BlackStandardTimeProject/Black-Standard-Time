@@ -428,7 +428,7 @@ const MON3=m=>MONTHS[m-1].slice(0,3).toUpperCase();
   }
   const e=r.list[0];
   const bar=document.createElement("a");bar.className="now-bar";bar.href="editions.html#calendar";
-  bar.innerHTML='<span class="now-k"><span class="dot" aria-hidden="true"></span>Black Standard Time <b class="now-clock"></b></span><span class="now-m"></span>';
+  bar.innerHTML='<span class="now-k"><span class="dot" aria-hidden="true"></span>Now <b class="now-clock"></b></span><span class="now-m"></span>';
   bar.querySelector(".now-m").textContent=(r.exact?"Today, ":"Coming up "+MON3(r.m)+" "+r.d+", ")+e[2]+": "+e[3];
   document.body.insertBefore(bar,document.body.firstChild);
   const c=bar.querySelector(".now-clock");
