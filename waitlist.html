@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Join the waitlist for the 2027 Black Standard Time calendar.">
+<meta property="og:title" content="Waitlist · Black Standard Time">
+<meta property="og:description" content="A calendar of art and Black history, told outside the lens of trauma. Submit a moment.">
+<meta name="theme-color" content="#000000">
+<title>Waitlist · Black Standard Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="wrap bar">
+  <a class="mark" href="index.html">Black Standard Time</a>
+  <nav class="nav" aria-label="Pages">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="art.html">Art</a>
+    <a href="team.html">Team</a>
+    <a href="editions.html">Editions</a>
+    <a href="submit.html">Submit</a>
+    <a class="cta" href="waitlist.html" aria-current="page">2027 waitlist</a>
+  </nav>
+</header>
+
+<main class="page">
+<section class="wrap sec" id="waitlist" aria-labelledby="wlH">
+    <div class="wl">
+      <div>
+        <p class="label">Version 2 · 2027 edition</p>
+        <h1 id="wlH" class="stack"><span>Get on</span><span class="in1">the list</span></h1>
+      </div>
+      <form class="wl-form" id="wlForm" novalidate>
+        <p style="margin:0;color:var(--grey)">The 2026 calendar sold out. Be first to know when the 2027 edition is ready to order.</p>
+        <div class="wl-row">
+          <input id="wlName" autocomplete="name" placeholder="Name" aria-label="Name" maxlength="80">
+          <input id="wlEmail" type="email" autocomplete="email" placeholder="Email" aria-label="Email" maxlength="120" required>
+          <button class="btn primary" type="submit" id="wlGo">Join</button>
+        </div>
+        <p class="wl-msg" id="wlMsg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>Black Standard Time is a project by <a href="https://yournuclei.com" target="_blank" rel="noopener">Nuclei</a>.</span>
+  <span>Art + Black history · 365 days</span>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

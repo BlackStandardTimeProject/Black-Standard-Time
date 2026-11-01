@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Submit a moment of Black history for the Black Standard Time calendar.">
+<meta property="og:title" content="Submit · Black Standard Time">
+<meta property="og:description" content="A calendar of art and Black history, told outside the lens of trauma. Submit a moment.">
+<meta name="theme-color" content="#000000">
+<title>Submit · Black Standard Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="wrap bar">
+  <a class="mark" href="index.html">Black Standard Time</a>
+  <nav class="nav" aria-label="Pages">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="art.html">Art</a>
+    <a href="team.html">Team</a>
+    <a href="editions.html">Editions</a>
+    <a href="submit.html" aria-current="page">Submit</a>
+    <a class="cta" href="waitlist.html">2027 waitlist</a>
+  </nav>
+</header>
+
+<main class="page">
+<section class="submit" id="submit" aria-labelledby="subH">
+    <div class="wrap">
+      <div class="intro">
+        <p class="label">Submit a moment</p>
+        <h1 id="subH" class="stack"><span>Submit</span><span class="in1">your</span><span class="in2">date</span></h1>
+        <p>Tell us what happened, when, and where you found it. Every submission is read and fact-checked before it is paired with art. If yours makes the calendar, we'll credit you by name.</p>
+        <p class="sub-cta">Check the <a href="editions.html#calendar">2026 dates</a> first so we don't get the same moment twice.</p>
+      </div>
+
+      <form id="form" novalidate>
+        <div class="field">
+          <label for="title">The moment <span class="req">*</span></label>
+          <input id="title" name="title" maxlength="160" placeholder="e.g. Mae Jemison is admitted to NASA's astronaut program" required>
+        </div>
+
+        <fieldset class="field" style="border:0;padding:0;margin:0">
+          <legend>When did it happen? <span class="req">*</span></legend>
+          <div class="row3">
+            <select id="month" aria-label="Month" required>
+              <option value="">Month</option>
+            </select>
+            <input id="day" aria-label="Day" inputmode="numeric" placeholder="Day" maxlength="2" required>
+            <input id="year" aria-label="Year" inputmode="numeric" placeholder="Year" maxlength="4" required>
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category">
+              <option>Music</option><option>Film &amp; TV</option><option>Art &amp; Design</option><option>Fashion</option>
+              <option>Sport</option><option>Business</option><option>Science &amp; Tech</option><option>Literature</option>
+              <option>Politics &amp; Law</option><option>Education</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="source">Source link <span class="req">*</span></label>
+            <input id="source" type="url" placeholder="https://" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="why">Why it belongs on the calendar</label>
+          <textarea id="why" maxlength="800" placeholder="A few sentences on what this moment changed or opened up."></textarea>
+        </div>
+
+        <fieldset class="group">
+          <legend>About you</legend>
+          <div class="row">
+            <div class="field">
+              <label for="name">Name <span class="req">*</span></label>
+              <input id="name" autocomplete="name" maxlength="80" required>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input id="email" type="email" autocomplete="email" maxlength="120" placeholder="you@example.com" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="handle">Handle <span class="req">*</span></label>
+            <input id="handle" maxlength="80" placeholder="@yourhandle" required>
+            <small>Instagram, TikTok or X. This is how we'll credit you if your moment is chosen.</small>
+          </div>
+        </fieldset>
+
+        <label class="check"><input type="checkbox" id="lensOk" required><span>This moment celebrates achievement, creativity or joy, and I've checked the date against my source.</span></label>
+
+        <p class="err" id="err" hidden></p>
+        <div><button class="btn primary" type="submit" id="go">Submit moment</button></div>
+      </form>
+
+      <div class="done" id="done" hidden aria-live="polite">
+        <p class="label" id="doneLabel">Received</p>
+        <h3 id="doneH">It's on our desk.</h3>
+        <p id="doneP" style="margin:0">Thank you. We'll fact-check it and consider it for the next edition.</p>
+        <div id="fallback" hidden style="display:grid;gap:12px">
+          <pre id="copyText"></pre>
+          <div class="ctas"><button class="btn primary" type="button" id="copyBtn">Copy submission</button></div>
+          <p style="margin:0;font-size:14px">Send it to <span class="addr">hello@donyetaylor.com</span></p>
+        </div>
+        <div><button class="btn ghost" type="button" id="again">Submit another moment</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>Black Standard Time is a project by <a href="https://yournuclei.com" target="_blank" rel="noopener">Nuclei</a>.</span>
+  <span>Art + Black history · 365 days</span>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

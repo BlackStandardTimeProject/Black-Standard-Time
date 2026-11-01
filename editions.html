@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Black Standard Time editions: Version 1 (2026, sold out) and Version 2 (2027).">
+<meta property="og:title" content="Editions · Black Standard Time">
+<meta property="og:description" content="A calendar of art and Black history, told outside the lens of trauma. Submit a moment.">
+<meta name="theme-color" content="#000000">
+<title>Editions · Black Standard Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="wrap bar">
+  <a class="mark" href="index.html">Black Standard Time</a>
+  <nav class="nav" aria-label="Pages">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="art.html">Art</a>
+    <a href="team.html">Team</a>
+    <a href="editions.html" aria-current="page">Editions</a>
+    <a href="submit.html">Submit</a>
+    <a class="cta" href="waitlist.html">2027 waitlist</a>
+  </nav>
+</header>
+
+<main class="page">
+<section class="wrap sec" id="editions" aria-labelledby="edH">
+    <div class="sec-head">
+      <div>
+        <p class="label">Editions</p>
+        <h1 id="edH" class="stack"><span>One year</span><span class="in1">at a time</span></h1>
+      </div>
+      <div class="prose"><p>Each edition is a new year of dates and a new body of work. Submissions from this page help build the next one.</p></div>
+    </div>
+    <div class="eds">
+      <article class="ed">
+        <div><p class="label"><span class="so">Sold out</span> Version 1</p><div class="yr">2026</div></div>
+        <img class="ed-cover" src="calendar/cover-sm.jpg" alt="Cover of the 2026 Black Standard Time calendar">
+        <p>The first edition. Twelve months of art and Black history, from Fisk University's founding to Beychella. The print run is sold out. Thank you to everyone who put it on their wall.</p>
+        <a class="btn ghost" href="#print">Look inside</a>
+      </article>
+      <article class="ed next">
+        <div><p class="label">Version 2 · In the works</p><div class="yr">2027</div></div>
+        <p>New dates, new art. Join the waitlist to be first in line when it drops.</p>
+        <a class="btn primary" href="waitlist.html">Join the waitlist</a>
+      </article>
+    </div>
+  </section>
+<section class="wrap sec" id="print" aria-labelledby="printH">
+    <div class="sec-head">
+      <div>
+        <p class="label">The 2026 print</p>
+        <h2 id="printH" class="stack"><span>Every page</span><span class="in1">of the year</span></h2>
+      </div>
+      <div class="prose"><p>The first edition as it was printed: the cover, the introduction and all twelve months. Tap a page to see it up close.</p><p class="dim">2026 is sold out. <a href="waitlist.html">Join the 2027 waitlist</a> to be first in line for the next one.</p></div>
+    </div>
+    <div class="print-grid" id="printGrid"></div>
+  </section>
+<section class="wrap cal" id="calendar" aria-labelledby="calH">
+    <div class="cal-head">
+      <div>
+        <p class="label">Inside the 2026 calendar</p>
+        <h2 id="calH" class="stack"><span>Already</span><span class="in1">on the wall</span></h2>
+        <p>Every date in the first edition. Want to add one for 2027? <a href="submit.html">Submit a moment</a>.</p>
+      </div>
+      <div class="tabs" role="tablist" id="tabs" aria-label="Month"></div>
+    </div>
+    <ul class="days" id="days" role="tabpanel"></ul>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>Black Standard Time is a project by <a href="https://yournuclei.com" target="_blank" rel="noopener">Nuclei</a>.</span>
+  <span>Art + Black history · 365 days</span>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
