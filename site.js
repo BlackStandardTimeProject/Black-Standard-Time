@@ -537,3 +537,52 @@ if(document.getElementById("bdForm")){
   });
 })();
 }
+
+/* ---- community posts ----
+   To add a post, paste its link into this list. TikTok and Instagram Reels both work.
+   Example: {url:"https://www.tiktok.com/@name/video/7400000000000000000", handle:"@name", note:"Unboxing the 2026 calendar"} */
+const COMMUNITY=[
+  {url:"https://www.tiktok.com/@denisefwd/video/7605435319109864717",handle:"@denisefwd",note:""},
+  {url:"https://www.tiktok.com/@sadesshakur/video/7608311559097486623",handle:"@sadesshakur",note:""},
+  {url:"https://www.tiktok.com/@paige_mariah/video/7609841455397424414",handle:"@paige_mariah",note:""},
+  {url:"https://www.tiktok.com/@thesunherself/video/7607944176088435999",handle:"@thesunherself",note:""},
+  {url:"https://www.tiktok.com/@tarontoyou/video/7688352373483392286",handle:"@tarontoyou",note:""},
+  {url:"https://www.tiktok.com/@taliacadet/video/7605306571039542558",handle:"@taliacadet",note:""},
+  {url:"https://www.tiktok.com/@donye.taylor/video/7614366110393044237",handle:"@donye.taylor",note:""},
+  {url:"https://www.tiktok.com/@_lexialize/video/7611668049925590302",handle:"@_lexialize",note:""}
+];
+if(document.getElementById("commRow")){
+(function(){
+  const row=document.getElementById("commRow");
+  function parse(u){
+    let m=u.match(/tiktok\.com\/.*\/video\/(\d+)/);if(m)return {src:`https://www.tiktok.com/player/v1/${m[1]}?music_info=1&description=1&rel=0&native_context_menu=0`,kind:"TikTok"};
+    m=u.match(/instagram\.com\/(?:reel|reels|p)\/([\w-]+)/);if(m)return {src:`https://www.instagram.com/reel/${m[1]}/embed`,kind:"Instagram"};
+    return null;
+  }
+  COMMUNITY.forEach((p,i)=>{
+    const v=parse(p.url);if(!v)return;
+    const f=document.createElement("figure");f.className="post";
+    const b=document.createElement("button");b.type="button";b.className="post-frame";b.setAttribute("aria-label","Play "+v.kind+" post by "+(p.handle||"the community"));
+    b.innerHTML='<span class="post-n"></span><span class="post-play" aria-hidden="true">▶</span><span class="post-h"></span><span class="label post-k"></span>';
+    b.querySelector(".post-n").textContent=String(i+1).padStart(2,"0");
+    b.querySelector(".post-h").textContent=p.handle||"";
+    b.querySelector(".post-k").textContent="Watch on "+v.kind;
+    b.onclick=()=>{const fr=document.createElement("iframe");fr.src=v.src;fr.title=v.kind+" post by "+(p.handle||"the community");
+      fr.allow="autoplay; encrypted-media; fullscreen; picture-in-picture";fr.allowFullscreen=true;fr.loading="lazy";
+      const w=document.createElement("div");w.className="post-frame live";w.appendChild(fr);b.replaceWith(w)};
+    const c=document.createElement("figcaption");
+    c.innerHTML='<a target="_blank" rel="noopener"></a><span></span>';
+    const a=c.querySelector("a");a.href=p.url;a.textContent=p.handle||("View on "+v.kind);
+    c.querySelector("span").textContent=p.note||"";
+    f.appendChild(b);f.appendChild(c);row.appendChild(f);
+  });
+  /* closing card: invite people to post */
+  const cta=document.createElement("a");cta.className="post post-cta";cta.href="https://www.tiktok.com/tag/blackstandardtime";cta.target="_blank";cta.rel="noopener";
+  cta.innerHTML='<span class="post-frame"><span class="label">Your turn</span><span class="post-big">Post your date</span><span class="label">Tag #BlackStandardTime →</span></span>';
+  row.appendChild(cta);
+  const step=()=>Math.max(260,row.clientWidth*.8);
+  document.querySelector(".comm-prev").onclick=()=>row.scrollBy({left:-step(),behavior:"smooth"});
+  document.querySelector(".comm-next").onclick=()=>row.scrollBy({left:step(),behavior:"smooth"});
+  if(COMMUNITY.length<3)document.querySelector(".comm-ctrl").hidden=true;
+})();
+}
