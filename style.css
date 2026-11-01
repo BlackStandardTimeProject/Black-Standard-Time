@@ -380,3 +380,4 @@ img{-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:n
 .v-imgs figure{position:relative}
 .v-imgs figure::after{content:"";position:absolute;inset:0 0 28px 0}
 .v-imgs:not(.two) figure::after{bottom:0}
+.post-frame .post-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}

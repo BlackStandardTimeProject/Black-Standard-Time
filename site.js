@@ -542,14 +542,14 @@ if(document.getElementById("bdForm")){
    To add a post, paste its link into this list. TikTok and Instagram Reels both work.
    Example: {url:"https://www.tiktok.com/@name/video/7400000000000000000", handle:"@name", note:"Unboxing the 2026 calendar"} */
 const COMMUNITY=[
-  {url:"https://www.tiktok.com/@denisefwd/video/7605435319109864717",handle:"@denisefwd",note:""},
-  {url:"https://www.tiktok.com/@sadesshakur/video/7608311559097486623",handle:"@sadesshakur",note:""},
-  {url:"https://www.tiktok.com/@paige_mariah/video/7609841455397424414",handle:"@paige_mariah",note:""},
-  {url:"https://www.tiktok.com/@thesunherself/video/7607944176088435999",handle:"@thesunherself",note:""},
-  {url:"https://www.tiktok.com/@tarontoyou/video/7688352373483392286",handle:"@tarontoyou",note:""},
-  {url:"https://www.tiktok.com/@taliacadet/video/7605306571039542558",handle:"@taliacadet",note:""},
-  {url:"https://www.tiktok.com/@donye.taylor/video/7614366110393044237",handle:"@donye.taylor",note:""},
-  {url:"https://www.tiktok.com/@_lexialize/video/7611668049925590302",handle:"@_lexialize",note:""}
+  {url:"https://www.tiktok.com/@denisefwd/video/7605435319109864717",handle:"@denisefwd",note:"",thumb:"community/7605435319109864717.jpg"},
+  {url:"https://www.tiktok.com/@sadesshakur/video/7608311559097486623",handle:"@sadesshakur",note:"",thumb:"community/7608311559097486623.jpg"},
+  {url:"https://www.tiktok.com/@paige_mariah/video/7609841455397424414",handle:"@paige_mariah",note:"",thumb:"community/7609841455397424414.jpg"},
+  {url:"https://www.tiktok.com/@thesunherself/video/7607944176088435999",handle:"@thesunherself",note:"",thumb:"community/7607944176088435999.jpg"},
+  {url:"https://www.tiktok.com/@tarontoyou/video/7688352373483392286",handle:"@tarontoyou",note:"",thumb:"community/7688352373483392286.jpg"},
+  {url:"https://www.tiktok.com/@taliacadet/video/7605306571039542558",handle:"@taliacadet",note:"",thumb:"community/7605306571039542558.jpg"},
+  {url:"https://www.tiktok.com/@donye.taylor/video/7614366110393044237",handle:"@donye.taylor",note:"",thumb:"community/7614366110393044237.jpg"},
+  {url:"https://www.tiktok.com/@_lexialize/video/7611668049925590302",handle:"@_lexialize",note:"",thumb:"community/7611668049925590302.jpg"}
 ];
 if(document.getElementById("commRow")){
 (function(){
@@ -561,7 +561,7 @@ if(document.getElementById("commRow")){
   /* cover images and captions come from TikTok's public oEmbed, loaded in the visitor's browser */
   function loadPreviews(){
     row.querySelectorAll(".post-frame[data-url]").forEach(b=>{
-      const u=b.dataset.url;if(!/tiktok\.com/.test(u)||b.classList.contains("has-thumb"))return;
+      const u=b.dataset.url;if(!/tiktok\.com/.test(u)||b.classList.contains("has-thumb")||b.dataset.thumb)return;
       fetch("https://www.tiktok.com/oembed?url="+encodeURIComponent(u)).then(r=>r.ok?r.json():null).then(d=>{
         if(!d)return;
         if(d.thumbnail_url)setThumb(b,d.thumbnail_url);
@@ -584,7 +584,7 @@ if(document.getElementById("commRow")){
     b.querySelector(".post-h").textContent=p.handle||"";
     b.querySelector(".post-k").textContent="Watch on "+v.kind;
     b.dataset.url=p.url.split("?")[0];
-    if(p.thumb)setThumb(b,p.thumb);
+    if(p.thumb){b.dataset.thumb="1";setThumb(b,p.thumb)}
     b.onclick=()=>{const fr=document.createElement("iframe");fr.src=v.src;fr.title=v.kind+" post by "+(p.handle||"the community");
       fr.allow="autoplay; encrypted-media; fullscreen; picture-in-picture";fr.allowFullscreen=true;fr.loading="lazy";
       const w=document.createElement("div");w.className="post-frame live";w.appendChild(fr);b.replaceWith(w)};
@@ -603,7 +603,8 @@ if(document.getElementById("commRow")){
   document.querySelector(".comm-prev").onclick=()=>row.scrollBy({left:-step(),behavior:"smooth"});
   document.querySelector(".comm-next").onclick=()=>row.scrollBy({left:step(),behavior:"smooth"});
   if(COMMUNITY.length<3)document.querySelector(".comm-ctrl").hidden=true;
-  if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();loadPreviews()}},{rootMargin:"600px"});io.observe(row)}else loadPreviews();
+  /* posts without a saved cover try TikTok's oEmbed in the browser */
+  if(COMMUNITY.some(p=>!p.thumb)&&"IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();loadPreviews()}},{rootMargin:"600px"});io.observe(row)}
 })();
 }
 
