@@ -606,3 +606,18 @@ if(document.getElementById("commRow")){
   if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();loadPreviews()}},{rootMargin:"600px"});io.observe(row)}else loadPreviews();
 })();
 }
+
+/* ---- protect the artwork ----
+   Blocks right-click save, drag-to-desktop and long-press save on the art and calendar images.
+   (No website can block screenshots; the full-size files are kept web-sized on purpose.) */
+(function(){
+  const ART_SEL="img, .art-frame, .pg, .strip-item, .y26-pics, .v-imgs, .ed-cover, canvas";
+  const hit=t=>t&&t.closest&&t.closest(ART_SEL);
+  document.addEventListener("contextmenu",e=>{if(hit(e.target))e.preventDefault()});
+  document.addEventListener("dragstart",e=>{if(hit(e.target))e.preventDefault()});
+  document.querySelectorAll("img").forEach(i=>i.setAttribute("draggable","false"));
+  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{
+    if(n.nodeType!==1)return;if(n.tagName==="IMG")n.setAttribute("draggable","false");
+    n.querySelectorAll&&n.querySelectorAll("img").forEach(i=>i.setAttribute("draggable","false"));
+  }))).observe(document.body,{childList:true,subtree:true});
+})();

@@ -372,3 +372,11 @@ footer{border-top:1px solid var(--line);padding-block:32px;display:flex;justify-
 .ed.studio{min-height:0}
 .ed.studio h3{font-size:clamp(32px,4vw,52px);margin-top:12px}
 footer span:first-child{max-width:100%}
+
+/* ---- protect the artwork ---- */
+img{-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.art-frame,.pg,.strip-item,.y26-pics a,.v-imgs figure,.post-frame{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+/* a clear layer over full-size images so "save image" has nothing to grab */
+.v-imgs figure{position:relative}
+.v-imgs figure::after{content:"";position:absolute;inset:0 0 28px 0}
+.v-imgs:not(.two) figure::after{bottom:0}
